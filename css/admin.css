@@ -59,59 +59,60 @@ body.admin { background: var(--bg); }
 .adm { display: none; min-height: 100dvh; flex-direction: column; }
 .adm.is-on { display: flex; }
 
-.adm__bar {
+/* Cabeçalho administrativo com contraste próprio, independente do tema da vitrine. */
+.admin .adm__bar {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(250, 243, 234, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  background: #0b0b0f;
+  color: #f5f5f7;
+  border-bottom: 1px solid #ffffff1f;
+  box-shadow: 0 8px 24px #0003;
 }
-.adm__bar-in {
+.admin .adm__bar-in {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px var(--pad);
-  max-width: 1200px;
-  margin-inline: auto;
-}
-.adm__logo {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-family: var(--sans);
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-}
-.adm__logo svg { width: 22px; height: 22px; color: var(--brand); }
-.adm__logo img { width: 34px; height: auto; }
-.adm__user { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--txt-3); }
-
-.tabs {
-  display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 0 var(--pad) 10px;
-  max-width: 1200px;
-  margin-inline: auto;
+  justify-content: space-between;
+  gap: 24px;
   width: 100%;
+  max-width: 1200px;
+  min-height: 100px;
+  padding: 14px var(--pad);
+  margin-inline: auto;
 }
-.tabs::-webkit-scrollbar { display: none; }
-.tab {
-  flex: none;
-  padding: 9px 15px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--txt-2);
-  border: 1px solid transparent;
-  transition: all 0.16s var(--ease);
+.admin .adm__logo { display: flex; align-items: center; gap: 16px; flex: 0 0 auto; }
+.admin .adm__logo img { width: 94px; height: 62px; object-fit: contain; }
+.adm__brand-copy { display: flex; flex-direction: column; gap: 5px; }
+.adm__brand-name { color: #fff; font-size: 16px; font-weight: 800; letter-spacing: .02em; }
+.adm__brand-subtitle { color: #aaa7b5; font-size: 12px; font-weight: 400; }
+.admin .adm__user { display: flex; align-items: center; gap: 12px; min-width: 0; margin-left: auto; }
+.adm__account { display: flex; flex-direction: column; gap: 5px; min-width: 0; margin-right: 8px; }
+.adm__account-label { color: #aaa7b5; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+.admin #admEmail { display: block; color: #ededf2; font-size: 12px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin .adm__bar .btn { min-height: 40px; padding: 9px 15px; font-size: 12px; font-weight: 600; border: 1px solid #ffffff2b; border-radius: 6px; color: #f5f5f7; background: #ffffff06; white-space: nowrap; }
+.admin .adm__bar .btn:hover { background: #ffffff12; border-color: #ffffff55; }
+.admin .adm__bar .adm__view-store { border-color: #b000f55c; background: #b000f512; color: #e3baff; }
+.admin .tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; padding: 8px var(--pad) 12px; max-width: 1200px; margin-inline: auto; width: 100%; }
+.admin .tab { flex: none; min-height: 42px; padding: 10px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; color: #b9b5c5; border: 1px solid transparent; transition: background .16s, color .16s; }
+.admin .tab:hover { background: #ffffff0d; color: #fff; }
+.admin .tab.is-on { background: #b000f51c; border-color: #b000f54d; color: #e3baff; box-shadow: inset 0 -2px #b000f5; }
+.admin .adm__bar :focus-visible { outline: 2px solid #d482ff; outline-offset: 3px; }
+@media (max-width: 700px) {
+  .admin .adm__bar-in { flex-wrap: wrap; gap: 12px; padding-block: 12px; }
+  .admin .adm__logo img { width: 72px; height: 48px; }
+  .admin .adm__logo { gap: 12px; }
+  .admin .adm__user { width: 100%; gap: 8px; margin: 0; padding-top: 12px; border-top: 1px solid #ffffff14; }
+  .adm__account { flex: 1; margin-right: 0; }
+  .admin #admEmail { max-width: 100%; font-size: 11px; }
+  .admin .adm__bar .btn { padding: 8px 11px; }
+  .admin .tabs { gap: 4px; padding-top: 4px; }
+  .admin .tab { padding-inline: 13px; font-size: 12px; }
 }
-.tab:hover { background: var(--surface); color: var(--txt); }
-.tab.is-on { background: var(--brand); color: var(--brand-ink); }
+@media (max-width: 380px) {
+  .adm__account-label { font-size: 9px; letter-spacing: 0; }
+  .admin .adm__bar .btn { padding-inline: 8px; font-size: 11px; }
+  .admin .tab { padding-inline: 10px; }
+}
 
 .adm__main {
   flex: 1;
@@ -441,4 +442,8 @@ textarea.inp { min-height: 110px; resize: vertical; line-height: 1.55; }
   border: 1px dashed var(--line-2);
   border-radius: var(--r);
   font-size: 14px;
+}
+@media (max-width: 700px) {
+  .admin .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; gap: 3px; }
+  .admin .tab { min-width: 0; padding: 10px 3px; font-size: 11px; white-space: nowrap; }
 }

@@ -12,6 +12,8 @@ import { ico, brl, esc, toast } from "./ui.js";
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
+const cores = ["corPrimaria", "corFundo", "corSuperficie", "corTexto"];
+let bannerAtual = CONFIG_PADRAO.heroImagem;
 
 /* estado da tela */
 const st = {
@@ -30,8 +32,8 @@ const TAMANHOS_SUGERIDOS = ["Único", "PP", "P", "M", "G", "GG", "36", "38", "40
    LOGIN
    ============================================================ */
 
-$("#loginMark").innerHTML = `<img src="img/logo.png" alt="">`;
-$("#admLogo").innerHTML = `<img src="img/sol.png" alt=""><span>Painel da loja</span>`;
+$("#loginMark").innerHTML = `<img src="img/logo.svg" alt="">`;
+$("#admLogo").innerHTML = `<img src="img/logo.svg" alt=""><span class="adm__brand-copy"><span class="adm__brand-name">GL Fight</span><span class="adm__brand-subtitle">Painel da loja</span></span>`;
 
 if (MODO_DEMO) {
   $("#loginSub").innerHTML =
@@ -72,7 +74,9 @@ function traduzirErro(ex) {
     "auth/wrong-password": "Senha incorreta.",
     "auth/too-many-requests": "Muitas tentativas. Aguarde alguns minutos.",
     "auth/network-request-failed": "Sem conexão com a internet.",
-    "permission-denied": "Sua conta não tem permissão de administradora.",
+    "permission-denied": "O Firebase bloqueou o acesso. Confira as regras do Firestore e o cadastro da sua conta em admins/UID.",
+    "failed-precondition": "O banco precisa de um índice para esta consulta. Aguarde a configuração dos índices do Firestore.",
+    "unavailable": "O banco está indisponível. Confira sua conexão e tente novamente.",
   };
   return mapa[codigo] || ex?.message || "Não foi possível entrar.";
 }
@@ -83,7 +87,7 @@ await dados.observarAuth((usuario) => {
   $("#telaLogin").style.display = "none";
   $("#painel").classList.add("is-on");
   $("#admEmail").textContent = usuario.email || "";
-  carregarTudo();
+  carregarTudo().catch(mostrarErroPainel);
 });
 
 /* ============================================================
@@ -101,7 +105,15 @@ $$(".tab").forEach((t) =>
    CARGA INICIAL
    ============================================================ */
 
+function mostrarErroPainel(erro) {
+  console.error(erro);
+  const aviso = $("#erroPainel");
+  aviso.hidden = false;
+  aviso.textContent = traduzirErro(erro);
+}
+
 async function carregarTudo() {
+  $("#erroPainel").hidden = true;
   $("#infoAmbiente").innerHTML = MODO_DEMO
     ? `<b>Modo demonstração.</b> Tudo o que você cadastrar fica guardado só neste navegador — some se limpar os dados ou trocar de aparelho.
        Para publicar de verdade, preencha <code>js/config.js</code> com as chaves do Firebase.`
@@ -459,7 +471,8 @@ $("#salvarProduto").addEventListener("click", async () => {
     await recarregarCategorias();
   } catch (e) {
     console.error(e);
-    toast(e.message || "Não foi possível salvar");
+    mostrarErroPainel(e);
+    toast(traduzirErro(e));
   } finally {
     btn.disabled = false;
     btn.textContent = "Salvar produto";
@@ -493,9 +506,16 @@ $("#fecharModalCat").addEventListener("click", fecharCategoria);
 $("#cancelarCat").addEventListener("click", fecharCategoria);
 modalCat.addEventListener("click", (e) => { if (e.target === modalCat) fecharCategoria(); });
 
-$("#salvarCat").addEventListener("click", async () => {
+$("#salvarCat").addEventListener("click", salvarCategoria);
+$("#formCategoria").addEventListener("submit", (event) => { event.preventDefault(); salvarCategoria(); });
+async function salvarCategoria() {
+  const btn = $("#salvarCat");
+  if (btn.disabled) return;
   if (!$("#formCategoria").reportValidity()) return;
   const nome = $("#cNome").value.trim();
+  if (!slugify(nome)) { toast("Informe um nome com letras ou números para a categoria."); return; }
+  btn.disabled = true;
+  btn.textContent = "Salvando…";
   try {
     await dados.salvarCategoria({
       id: $("#cId").value || slugify(nome),
@@ -504,13 +524,18 @@ $("#salvarCat").addEventListener("click", async () => {
       ordem: $("#cOrdem").value,
       ativa: $("#cAtiva").checked,
     });
+    $("#erroPainel").hidden = true;
     toast("Categoria salva");
     fecharCategoria();
     await recarregarCategorias();
   } catch (e) {
-    toast(e.message || "Não foi possível salvar");
+    mostrarErroPainel(e);
+    toast(traduzirErro(e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Salvar categoria";
   }
-});
+}
 
 /* ============================================================
    DADOS DA LOJA
@@ -564,7 +589,8 @@ $("#formLoja").addEventListener("submit", async (e) => {
     });
     toast("Dados da loja salvos");
   } catch (ex) {
-    toast(ex.message || "Não foi possível salvar");
+    mostrarErroPainel(ex);
+    toast(traduzirErro(ex));
   }
 });
 
@@ -602,8 +628,6 @@ $("#arquivoImport").addEventListener("change", async (e) => {
   }
 });
 
-const cores = ['corPrimaria','corFundo','corSuperficie','corTexto'];
-let bannerAtual = CONFIG_PADRAO.heroImagem;
 for(const key of cores) $('#'+key).addEventListener('input',()=>aplicarTema(Object.fromEntries(cores.map(k=>[k,$('#'+k).value]))));
 $('#restaurarCores').addEventListener('click',()=>{for(const k of cores) $('#'+k).value=CONFIG_PADRAO[k];aplicarTema(CONFIG_PADRAO)});
 $('#restaurarBanner').addEventListener('click',()=>{$('#cfgBannerPreview').src=bannerAtual=CONFIG_PADRAO.heroImagem;$('#cfgBannerArquivo').value=''});

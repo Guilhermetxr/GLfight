@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#faf3ea">
+  <meta name="theme-color" content="#0b0b0f">
   <meta name="robots" content="noindex, nofollow">
   <title>Painel da loja — GL Fight</title>
 
@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600;700&family=La+Belle+Aurore&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/loja.css">
-  <link rel="stylesheet" href="css/admin.css">
-  <link rel="icon" type="image/png" href="img/logo.svg">
-<link rel="stylesheet" href="css/glfight.css">
+  <link rel="stylesheet" href="css/admin.css?v=20261001-2">
+  <link rel="icon" type="image/svg+xml" href="img/logo.svg">
+<link rel="stylesheet" href="css/glfight.css?v=20261001-2">
 </head>
 <body class="admin">
 
@@ -45,10 +45,10 @@
   <div class="adm" id="painel">
     <div class="adm__bar">
       <div class="adm__bar-in">
-        <span class="adm__logo" id="admLogo"></span>
+        <a class="adm__logo" id="admLogo" href="index.html" aria-label="GL Fight — voltar à loja"></a>
         <span class="adm__user">
-          <span id="admEmail"></span>
-          <a class="btn btn--ghost" style="padding:8px 12px;font-size:12.5px" href="index.html" target="_blank">Ver loja</a>
+          <span class="adm__account"><span class="adm__account-label">Conta conectada</span><span id="admEmail"></span></span>
+          <a class="btn btn--ghost adm__view-store" href="index.html" target="_blank" rel="noopener">Ver loja</a>
           <button class="btn btn--ghost" style="padding:8px 12px;font-size:12.5px" id="btnSair">Sair</button>
         </span>
       </div>
@@ -61,6 +61,7 @@
     </div>
 
     <main class="adm__main">
+      <div class="aviso" id="erroPainel" role="alert" hidden></div>
 
       <!-- ---------- PRODUTOS ---------- -->
       <section class="painel is-on" id="aba-produtos">

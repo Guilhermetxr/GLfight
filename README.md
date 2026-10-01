@@ -10,9 +10,9 @@ Configuração web do projeto glfight em js/config.js. Ative Firestore e Authent
 
 O painel em /admin.html permite cadastrar produtos/categorias e alterar foto do banner, título, texto e quatro cores em Dados da loja. Imagens são comprimidas e armazenadas em documentos Firestore; banner limitado a 650 KB de dados codificados. Sem dependência do Storage. Informe também o WhatsApp com DDD.
 
-O banco real inicia com seu conteúdo, sem inserir produtos demonstrativos automaticamente. As fotos dos produtos da demonstração são exibidas a partir da referência fornecida via enquadramento CSS e devem ser substituídas por fotos reais. Logo tipográfico provisório inspirado na referência. Foto original do banner preservada em img/banner.jpeg.
+O banco real inicia com seu conteúdo, sem inserir produtos demonstrativos automaticamente. As fotos dos produtos da demonstração são exibidas a partir da referência fornecida via enquadramento CSS e devem ser substituídas por fotos reais. Logo exibida por enquadramento da marca na referência original (SVG com imagem incorporada); a nitidez é limitada pela foto fornecida. Foto original do banner preservada em img/banner.jpeg.
 
 Para publicar no Firebase Hosting: `firebase deploy --only hosting --project glfight` depois de conferir regras, administrador, contatos e catálogo real.
 
 ## Validação realizada
-Sintaxe de todos os módulos verificada. Navegação inicial e login demonstrativo verificados no navegador, assim como salvamento das cores. A leitura do projeto real respondeu `Missing or insufficient permissions`: publique firestore.rules e configure o administrador para liberar o uso real.
+Sintaxe de todos os módulos verificada. Navegação inicial e login demonstrativo verificados no navegador, assim como salvamento das cores. Em 01/10/2026, foram publicadas as regras e os índices no projeto glfight: as regras anteriores negavam todas as operações. O usuário existente já consta em admins/UID. Leituras públicas de categorias e produtos confirmadas com HTTP 200 após a publicação. Cadastro, edição e exclusão de categorias verificados com armazenamento de teste isolado; gravação real depende da sessão autenticada do administrador.
