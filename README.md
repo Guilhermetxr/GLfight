@@ -16,3 +16,6 @@ Para publicar no Firebase Hosting: `firebase deploy --only hosting --project glf
 
 ## Validação realizada
 Sintaxe de todos os módulos verificada. Navegação inicial e login demonstrativo verificados no navegador, assim como salvamento das cores. Em 01/10/2026, foram publicadas as regras e os índices no projeto glfight: as regras anteriores negavam todas as operações. O usuário existente já consta em admins/UID. Leituras públicas de categorias e produtos confirmadas com HTTP 200 após a publicação. Cadastro, edição e exclusão de categorias verificados com armazenamento de teste isolado; gravação real depende da sessão autenticada do administrador.
+
+## Apresentação da atleta
+Site independente na pasta vizinha `../site-apresentação-GL`. Para publicar a loja e a apresentação em domínios separados, ajuste o link do rodapé em `js/ui.js` para o endereço público da apresentação.

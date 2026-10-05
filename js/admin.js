@@ -32,8 +32,8 @@ const TAMANHOS_SUGERIDOS = ["Único", "PP", "P", "M", "G", "GG", "36", "38", "40
    LOGIN
    ============================================================ */
 
-$("#loginMark").innerHTML = `<img src="img/logo.svg" alt="">`;
-$("#admLogo").innerHTML = `<img src="img/logo.svg" alt=""><span class="adm__brand-copy"><span class="adm__brand-name">GL Fight</span><span class="adm__brand-subtitle">Painel da loja</span></span>`;
+$("#loginMark").innerHTML = `<img src="img/logo.svg?v=20261005" alt="">`;
+$("#admLogo").innerHTML = `<img src="img/logo.svg?v=20261005" alt=""><span class="adm__brand-copy"><span class="adm__brand-name">GL Fight</span><span class="adm__brand-subtitle">Painel da loja</span></span>`;
 
 if (MODO_DEMO) {
   $("#loginSub").innerHTML =

@@ -175,7 +175,7 @@ export async function montarLayout({ ativo = "" } = {}) {
         <button class="iconbtn" id="abrirMenu" aria-label="Abrir menu">${ico.menu}</button>
         <button class="iconbtn" id="abrirBusca" aria-label="Buscar">${ico.busca}</button>
         <a class="hdr__logo" href="index.html">
-          <span class="hdr__mark"><img src="img/logo.svg" alt=""></span>
+          <span class="hdr__mark"><img src="img/logo.svg?v=20261005" alt=""></span>
           <span class="hdr__name">${esc(cfg.nome)}</span>
         </a>
         <nav class="hdr__nav">
@@ -241,7 +241,7 @@ export async function montarLayout({ ativo = "" } = {}) {
         </div>
         <div>
           <h4>Loja</h4>
-          <ul><li><a href="admin.html">Área da loja</a></li></ul>
+          <ul><li><a href="../site-apresenta%C3%A7%C3%A3o-GL/index.html">A atleta por trás da GL Fight</a></li><li><a href="admin.html">Área da loja</a></li></ul>
         </div>
       </div>
       <div class="wrap foot__bottom">
@@ -311,5 +311,5 @@ export function aplicarTema(c) {
 export function imagemProduto(src,nome) {
  const m=/^img\/reference\.jpeg#p([0-4])$/.exec(src||"");
  if(m) return `<span class="product-art product-art--${m[1]}" role="img" aria-label="${esc(nome)}"></span>`;
- return `<img class="card__img" src="${esc(src||'img/logo.svg')}" alt="${esc(nome)}" loading="lazy">`;
+ return `<img class="card__img" src="${esc(src||'img/logo.svg?v=20261005')}" alt="${esc(nome)}" loading="lazy">`;
 }
